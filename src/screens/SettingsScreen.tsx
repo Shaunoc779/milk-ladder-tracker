@@ -22,7 +22,7 @@ export default function SettingsScreen() {
 
   const handleInvitePartner = () => {
     if (!partnerEmail) {
-      Alert.alert('Error', 'Please enter your partner\'s email.');
+      Alert.alert('Error', "Please enter your partner's email.");
       return;
     }
     Alert.alert('Invite Sent', `An invitation has been sent to ${partnerEmail}.`);

@@ -60,9 +60,10 @@ export default function DailyLogScreen() {
       Alert.alert('Error', 'Please fill in description and quantity.');
       return;
     }
+    const resolvedTime = entryTime || new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     setMilkEntries((prev) => [
       ...prev,
-      { type: entryType, description: entryDescription, quantity: entryQuantity, time: entryTime || new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) },
+      { type: entryType, description: entryDescription, quantity: entryQuantity, time: resolvedTime },
     ]);
     setEntryDescription('');
     setEntryQuantity('');
