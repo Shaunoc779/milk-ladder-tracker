@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Milk Ladder Tracker",
+    "newArchEnabled": true,
     "slug": "milk-ladder-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
