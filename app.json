@@ -1,1 +1,28 @@
-{"expo":{"name":"Milk Ladder Tracker","slug":"milk-ladder-tracker","version":"1.0.0","orientation":"portrait","userInterfaceStyle":"light","newArchEnabled":true,"splash":{"resizeMode":"contain","backgroundColor":"#4A90D9"},"ios":{"supportsTablet":true,"bundleIdentifier":"com.milkladdertracker.app"},"android":{"adaptiveIcon":{"backgroundColor":"#4A90D9"},"package":"com.milkladdertracker.app"}}}
+{
+  "expo": {
+    "name": "Milk Ladder Tracker",
+    "slug": "milk-ladder-tracker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#4A90D9"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.milkladdertracker.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#4A90D9"
+      },
+      "package": "com.milkladdertracker.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    }
+  }
+}
