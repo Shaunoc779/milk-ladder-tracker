@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { theme } from '../theme/theme';
 import { formatDate } from '../utils/helpers';
+
+let CalendarComponent: React.ComponentType<any> | null = null;
+if (Platform.OS !== 'web') {
+  CalendarComponent = require('react-native-calendars').Calendar;
+}
 
 export default function CalendarScreen({ navigation }: any) {
   const today = formatDate(new Date());
@@ -23,32 +27,45 @@ export default function CalendarScreen({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      <Calendar
-        current={today}
-        onDayPress={handleDayPress}
-        markedDates={{
-          ...markedDates,
-          [selectedDate]: {
-            selected: true,
-            selectedColor: theme.colors.primary,
-            marked: markedDates[selectedDate]?.marked,
-          },
-        }}
-        theme={{
-          backgroundColor: theme.colors.background,
-          calendarBackground: theme.colors.card,
-          textSectionTitleColor: theme.colors.textLight,
-          selectedDayBackgroundColor: theme.colors.primary,
-          selectedDayTextColor: theme.colors.white,
-          todayTextColor: theme.colors.primary,
-          dayTextColor: theme.colors.text,
-          textDisabledColor: theme.colors.textMuted,
-          arrowColor: theme.colors.primary,
-          monthTextColor: theme.colors.text,
-          indicatorColor: theme.colors.primary,
-        }}
-        style={styles.calendar}
-      />
+      {CalendarComponent ? (
+        <CalendarComponent
+          current={today}
+          onDayPress={handleDayPress}
+          markedDates={{
+            ...markedDates,
+            [selectedDate]: {
+              selected: true,
+              selectedColor: theme.colors.primary,
+              marked: markedDates[selectedDate]?.marked,
+            },
+          }}
+          theme={{
+            backgroundColor: theme.colors.background,
+            calendarBackground: theme.colors.card,
+            textSectionTitleColor: theme.colors.textLight,
+            selectedDayBackgroundColor: theme.colors.primary,
+            selectedDayTextColor: theme.colors.white,
+            todayTextColor: theme.colors.primary,
+            dayTextColor: theme.colors.text,
+            textDisabledColor: theme.colors.textMuted,
+            arrowColor: theme.colors.primary,
+            monthTextColor: theme.colors.text,
+            indicatorColor: theme.colors.primary,
+          }}
+          style={styles.calendar}
+        />
+      ) : (
+        <View style={[styles.calendar, styles.webCalendarFallback]}>
+          <Text style={styles.webCalendarText}>Selected date: {selectedDate}</Text>
+          {/* @ts-ignore - native HTML date input for web only */}
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e: any) => setSelectedDate(e.target.value)}
+            style={{ fontSize: 16, padding: 8, borderRadius: 8, border: '1px solid #ccc', marginTop: 8 } as any}
+          />
+        </View>
+      )}
 
       {/* Legend */}
       <View style={styles.legend}>
@@ -93,6 +110,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
+  },
+  webCalendarFallback: {
+    backgroundColor: theme.colors.card,
+    padding: theme.spacing.lg,
+    alignItems: 'center',
+  },
+  webCalendarText: {
+    fontSize: theme.fontSize.sm,
+    color: theme.colors.text,
+    marginBottom: theme.spacing.sm,
   },
   legend: {
     backgroundColor: theme.colors.card,

@@ -6,6 +6,15 @@ import AuthNavigator from './AuthNavigator';
 import MainTabNavigator from './MainTabNavigator';
 import { theme } from '../theme/theme';
 
+// Linking config is required for React Navigation to initialise properly on web.
+// Prefixes and screens are intentionally empty as deep-linking is not needed.
+const linking = {
+  prefixes: [],
+  config: {
+    screens: {},
+  },
+};
+
 export default function AppNavigator() {
   const { user, loading } = useAuth();
 
@@ -18,7 +27,7 @@ export default function AppNavigator() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       {user ? <MainTabNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
