@@ -5,14 +5,29 @@ import { getFirestore } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAB6PYO20HNuEeiqppwVJV0L7yLOagZnq4",
-  authDomain: "milk-ladder-tracker-94808.firebaseapp.com",
-  projectId: "milk-ladder-tracker-94808",
-  storageBucket: "milk-ladder-tracker-94808.firebasestorage.app",
-  messagingSenderId: "957453947333",
-  appId: "1:957453947333:web:38b9a7f655aef8c0bdfbac"
+// Values are read from EXPO_PUBLIC_* environment variables.
+// For local development, create a .env.local file (already git-ignored) with these keys.
+const requiredEnvVars = {
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
 };
+
+const missing = Object.entries(requiredEnvVars)
+  .filter(([, value]) => !value)
+  .map(([key]) => `EXPO_PUBLIC_FIREBASE_${key.replace(/([A-Z])/g, '_$1').toUpperCase()}`);
+
+if (missing.length > 0) {
+  throw new Error(
+    `Missing required Firebase environment variables: ${missing.join(', ')}.\n` +
+    'Copy .env.local.example to .env.local and fill in your Firebase project values.'
+  );
+}
+
+const firebaseConfig = requiredEnvVars as Record<string, string>;
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
